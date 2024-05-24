@@ -53,27 +53,27 @@
                             @endif    
                             <td class="py-4 px-6 flex space-x-2">
                                 @can('update', $task)
-                                    <a href="{{ route('tasks.edit', $task) }}" class="text-yellow-500 hover:text-yellow-700">
-                                        <!-- Edit Icon -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232a3 3 0 014.536 4.536l-9.5 9.5a1.5 1.5 0 01-.788.409l-3.5.5a.75.75 0 01-.883-.883l.5-3.5a1.5 1.5 0 01.409-.788l9.5-9.5zM13.5 6.5L17.5 10.5" />
-                                        </svg>
-                                    </a>
+                                <a href="{{ route('tasks.edit', $task) }}" class="text-yellow-500 hover:text-yellow-700">
+                                    <!-- Edit Icon -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232a3 3 0 014.536 4.536l-9.5 9.5a1.5 1.5 0 01-.788.409l-3.5.5a.75.75 0 01-.883-.883l.5-3.5a1.5 1.5 0 01.409-.788l9.5-9.5zM13.5 6.5L17.5 10.5" />
+                                    </svg>
+                                </a>
                                 @endcan
-                                {{-- @can('delete', $task) --}}
-                                @if(Auth::user()->can('update', $task))
-                                    <form action="{{ route('tasks.destroy', $task) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this task?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="text-red-500 hover:text-red-700">
-                                            <!-- Delete Icon -->
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                                            </svg>
-                                        </button>
-                                    </form>
-                                    @endif
-                                {{-- @endcan --}}
+                                
+                                @if(Auth::user()->role === 'admin'|| Auth::user()->can('delete', $task))
+                                <form action="{{ route('tasks.destroy', $task) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this task?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-500 hover:text-red-700">
+                                        <!-- Delete Icon -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                        </svg>
+                                    </button>
+                                </form>
+                                @endif
+                                
                             </td>
                         </tr>
                     @endforeach

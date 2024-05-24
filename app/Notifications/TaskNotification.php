@@ -21,7 +21,14 @@ class TaskNotification extends Notification implements ShouldQueue
 
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        $channels = ['database'];
+
+        // Check if mail configuration is set
+        if (config('mail.username') && config('mail.password')) {
+            $channels[] = 'mail';
+        }
+
+        return $channels;
     }
 
     public function toMail($notifiable)

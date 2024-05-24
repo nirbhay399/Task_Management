@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Task;
 use App\Events\TaskEvent;
 use App\Events\TaskUpdated;
 use App\Events\TaskCreated;
@@ -13,11 +13,6 @@ use App\Events\TaskAssigned;
 
 class TaskController extends Controller
 {
-    // public function index()
-    // {
-    //     $tasks = Auth::user()->tasks;
-    //     return view('tasks.index', compact('tasks'));
-    // }
     public function index(Request $request)
     {
         $query = Task::query();
@@ -80,7 +75,7 @@ class TaskController extends Controller
 
     public function show(Task $task)
     {
-        $this->authorize('view', $task);
+        $this->authorize('view', $task);        
         return view('tasks.show', compact('task'));
     }
 
@@ -125,11 +120,14 @@ class TaskController extends Controller
 
     public function destroy(Task $task)
     {
-        $this->authorize('delete', $task);
         
-       $task->delete();
-        event(new TaskEvent($task));
-
+        if(Auth::user()->role === 'admin') {
+            $task->delete();
+        } else {
+            $this->authorize('delete', $task);
+            $task->delete();            
+        }   
+        event(new TaskEvent($task)); 
         return redirect()->route('tasks.index')->with('success', 'Task deleted successfully.');
     }
 }

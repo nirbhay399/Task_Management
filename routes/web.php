@@ -45,12 +45,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications/unread', [NotificationController::class, 'getUnreadNotifications']);
     Route::get('/notifications/unread-count', [NotificationController::class, 'getUnreadCount']);
 
-    // Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.index');
-    // Route::get('/notifications/unread', [NotificationController::class, 'unread'])->name('notifications.unread');
-    // Route::get('/notifications/{notification}', [NotificationController::class, 'show'])->name('notifications.show');
-    // Route::post('/notifications/{notification}/mark-read', [NotificationController::class, 'markRead'])->name('notifications.markRead');
-
-
     Route::middleware(['admin'])->group(function () {
         // Define admin-specific routes here
     });
