@@ -34,7 +34,7 @@
                     <option value="high" {{ $task->priority == 'high' ? 'selected' : '' }}>High</option>
                 </select>
             </div>
-            @if(auth()->user()->isAdmin())
+            {{-- @if(auth()->user()->isAdmin()) --}}
             <div class="mb-4">
                 <label for="assigned_user_id">Assign to:</label>
                 <select name="assigned_user_id" id="assigned_user_id" class="form-control">
@@ -46,7 +46,7 @@
                     @endforeach
                 </select>
             </div>
-            @endif
+            {{-- @endif --}}
             <div class="flex justify-end">
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none">Update Task</button>
                 <a href="{{ route('tasks.index') }}" class="bg-red-500 text-white px-4 py-2 ml-2 rounded hover:bg-red-600 transition-colors duration-300">Cancel</a>

@@ -107,19 +107,29 @@ class TaskController extends Controller
         return redirect()->route('tasks.index')->with('success', 'Task updated successfully.');
     }
 
+    // public function assign(Request $request, Task $task)
+    // {
+    //     $this->authorize('update', $task);
+
+    //     $data = $request->validate([
+    //         'assigned_user_id' => 'required|exists:users,id',
+    //     ]);
+
+    //     $task->update($data);
+
+    //     event(new TaskAssigned($task));
+
+    //     return redirect()->route('tasks.index')->with('success', 'Task assigned successfully.');
+    // }
     public function assign(Request $request, Task $task)
     {
-        $this->authorize('update', $task);
+        $task->assigned_user_id = $request->assigned_user_id;
+        $task->save();
 
-        $data = $request->validate([
-            'assigned_user_id' => 'required|exists:users,id',
-        ]);
-
-        $task->update($data);
-
+        // Dispatch the event
         event(new TaskAssigned($task));
 
-        return redirect()->route('tasks.index')->with('success', 'Task assigned successfully.');
+        return redirect()->route('tasks.index')->with('success', 'Task assigned successfully!');
     }
 
     public function destroy(Task $task)

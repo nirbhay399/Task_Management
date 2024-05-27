@@ -3,7 +3,11 @@ namespace App\Listeners;
 
 use App\Events\TaskCreated;
 use App\Notifications\TaskNotification;
+use App\Mail\TaskMailNotification;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Mail;
 
 class SendTaskCreatedNotification
 {
@@ -11,6 +15,10 @@ class SendTaskCreatedNotification
     {
         $task = $event->task;
 
+        $taskOwnerEmail = $task->user->email;
+        
+        // Send email notification
+        Mail::to($taskOwnerEmail)->send(new TaskMailNotification($task, 'created'));
         // Notify task creator
         $task->user->notify(new TaskNotification($task, 'created'));
 
