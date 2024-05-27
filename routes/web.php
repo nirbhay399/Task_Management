@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,9 +46,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications/unread', [NotificationController::class, 'getUnreadNotifications']);
     Route::get('/notifications/unread-count', [NotificationController::class, 'getUnreadCount']);
 
-    Route::middleware(['admin'])->group(function () {
-        // Define admin-specific routes here
+    Route::middleware(['can.admin'])->group(function () {
+        // Route::resource('admin/users', AdminUserController::class)->except(['show', 'create', 'store', 'destroy']);
+        Route::get('admin/users', [UserController::class, 'index'])->name('admin.users.index');
+        Route::get('admin/users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
+        Route::put('admin/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
     });
 });
+
 
 require __DIR__.'/auth.php';

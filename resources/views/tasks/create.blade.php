@@ -28,7 +28,7 @@
                     <option value="high">High</option>
                 </select>
             </div>
-            @if(auth()->user()->isAdmin())
+            {{-- @if(auth()->user()->isAdmin()) --}}
             <!-- Assigned User Field -->
             <div class="mb-4">
                 <label for="assigned_user_id" class="block text-gray-700 font-semibold mb-2">Assign to:</label>
@@ -41,7 +41,7 @@
                     @endforeach
                 </select>
             </div>
-            @endif
+            {{-- @endif --}}
             <div class="flex justify-end">
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none">Create Task</button>
                 <a href="{{ route('tasks.index') }}" class="bg-red-500 text-white px-4 py-2 ml-2 rounded hover:bg-red-600 transition-colors duration-300">Cancel</a>

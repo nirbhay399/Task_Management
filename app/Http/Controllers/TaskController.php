@@ -14,11 +14,11 @@ use App\Events\TaskAssigned;
 class TaskController extends Controller
 {
     public function index(Request $request)
-    {
+    {   
         $query = Task::query();
 
         // Admins can see all tasks, others see only their assigned tasks
-        if (Auth::user()->role !== 'admin') {
+        if (Auth::user()->role !== 'Admin') {
             $query->where(function($q) {
                 $q->where('assigned_user_id', Auth::id());
                 //   ->orWhere('user_id', Auth::id());
@@ -49,12 +49,13 @@ class TaskController extends Controller
 
 
     public function create()
-    {
-        return view('tasks.create');
+    {   
+        $users = User::all();
+        return view('tasks.create', compact('users'));        
     }
 
     public function store(Request $request)
-    {
+    {   
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -66,7 +67,10 @@ class TaskController extends Controller
         $data = $request->except('assigned_user_id');
         if (!$request->filled('assigned_user_id')) {
             $data['assigned_user_id'] = Auth::id();
+        } else {
+            $data['assigned_user_id'] = $request->assigned_user_id;
         }
+        
         $task = Auth::user()->tasks()->create($data);
         event(new TaskCreated($task));
 
@@ -121,7 +125,7 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         
-        if(Auth::user()->role === 'admin') {
+        if(Auth::user()->role === 'Admin') {
             $task->delete();
         } else {
             $this->authorize('delete', $task);

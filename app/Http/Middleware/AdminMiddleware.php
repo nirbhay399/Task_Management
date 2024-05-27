@@ -15,11 +15,18 @@ class AdminMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
-    {
-        if (Auth::check() && Auth::user()->isAdmin()) {
+    // public function handle(Request $request, Closure $next)
+    // {
+    //     if (Auth::check() && Auth::user()->isAdmin()) {
+    //         return $next($request);
+    //     }
+    //     return redirect('/');
+    // }
+    public function handle($request, Closure $next)
+    {   
+        if (Auth::check() && Auth::user()->role === 'Admin') {
             return $next($request);
-        }
-        return redirect('/');
+        }       
+        abort(403, 'Unauthorized');
     }
 }

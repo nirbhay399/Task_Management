@@ -35,7 +35,7 @@
                     <tr>
                         <th scope="col" class="py-3 px-6">Tasks</th>
                         <th scope="col" class="py-3 px-6">Due Date</th>
-                        @if(Auth::user()->role === 'admin')
+                        @if(Auth::user()->role === 'Admin')
                             <th scope="col" class="py-3 px-6">Assigned To</th>
                         @endif                        
                         <th scope="col" class="py-3 px-6">Actions</th>
@@ -48,7 +48,7 @@
                                 <a href="{{ route('tasks.show', $task) }}" class="text-blue-600 hover:underline">{{ $task->title }}</a>
                             </td>
                             <td class="py-4 px-6">{{ $task->due_date ? \Carbon\Carbon::parse($task->due_date)->format('Y-m-d') : 'N/A' }}</td>
-                            @if(Auth::user()->role === 'admin')
+                            @if(Auth::user()->role === 'Admin')
                                 <td class="py-4 px-6">{{ $task->assignedUser->name ?? 'Unassigned' }}</td>
                             @endif    
                             <td class="py-4 px-6 flex space-x-2">
@@ -61,7 +61,7 @@
                                 </a>
                                 @endcan
                                 
-                                @if(Auth::user()->role === 'admin'|| Auth::user()->can('delete', $task))
+                                @if(Auth::user()->role === 'Admin'|| Auth::user()->can('delete', $task))
                                 <form action="{{ route('tasks.destroy', $task) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this task?');">
                                     @csrf
                                     @method('DELETE')

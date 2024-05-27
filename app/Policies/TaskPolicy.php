@@ -12,16 +12,17 @@ class TaskPolicy
 
     public function view(User $user, Task $task)
     {
-        return $user->id === $task->assigned_user_id || $user->role === 'admin';        
+        return $user->id === $task->assigned_user_id || $user->role === 'Admin';        
     }
 
     public function update(User $user, Task $task)
     {
-        return $user->id === $task->assigned_user_id || $user->role === 'admin';
+        return $user->id === $task->assigned_user_id || $user->role === 'Admin';
     }
 
     public function delete(User $user, Task $task)
     {
         return $user->id === $task->assigned_user_id || $user->role === 'Admin';
     }
+    
 }

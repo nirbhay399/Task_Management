@@ -15,7 +15,13 @@
                     <x-nav-link :href="route('tasks.index')" :active="request()->routeIs('tasks.*')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                </div>
+
+                    @if (Auth::user()->role === 'Admin')
+                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+                    @endif
+                </div>                
             </div>
 
             <!-- Settings Dropdown -->
@@ -29,7 +35,8 @@
                             </svg>
                             <span id="notificationCount" class="absolute top-0 right-0 block h-5 w-5 rounded-full bg-red-600 text-white text-xs flex items-center justify-center"></span>
                         </button>
-                        <div id="notificationDropdown" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-xl">
+                        
+                        <div id="notificationDropdown" class="hidden absolute right-0 mt-2 w-60 bg-white rounded-lg shadow-xl z-50">
                             <div class="py-2">
                                 <div id="notificationList" class="max-h-60 overflow-y-auto">
                                     <!-- Notification items will be loaded here via AJAX -->
@@ -89,6 +96,12 @@
             <x-responsive-nav-link :href="route('tasks.index')" :active="request()->routeIs('tasks.*')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            
+            @if (Auth::user()->role === 'Admin')
+                <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                    {{ __('User Management') }}
+                </x-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

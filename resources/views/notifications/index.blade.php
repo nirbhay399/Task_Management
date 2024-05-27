@@ -18,22 +18,10 @@
                 </thead>
                 <tbody>
                     @foreach ($notifications as $notification)
-                        {{-- <tr class="bg-white border-b hover:bg-gray-50">
-                            <td class="py-4 px-6">
-                                {{ $notification->data['action'] }}: 
-                                <a href="{{ route('tasks.show', $notification->data['task_id']) }}" class="text-blue-600 hover:underline">{{ $notification->data['task_title'] }}</a>                                
-                            </td>
-                            <td class="py-4 px-6">
-                                {{ $notification->created_at->diffForHumans() }}
-                            </td>
-                            <td class="py-4 px-6">
-                                <a href="{{ route('notifications.markAsRead', $notification->id) }}" class="text-blue-600 hover:underline">Mark as read</a>
-                            </td>
-                        </tr> --}}
                         <tr class="bg-white border-b hover:bg-gray-50 notification-row">
                             <td class="py-4 px-6">
                                 {{ $notification->data['action'] }}: 
-                                <a href="{{ route('tasks.show', $notification->data['task_id']) }}" class="text-blue-600 hover:underline task-link">{{ $notification->data['task_title'] }}</a>                                
+                                 <a href="{{ route('tasks.show', $notification->data['task_id']) }}" class="text-blue-600 hover:underline task-link">{{ $notification->data['task_title'] }}</a>                                 
                             </td>
                             <td class="py-4 px-6">
                                 {{ $notification->created_at->diffForHumans() }}
@@ -51,33 +39,3 @@
     @endif
 </div>
 @endsection
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.task-link, .mark-as-read').forEach(function(element) {
-            element.addEventListener('click', function(event) {
-                event.preventDefault();
-                const notificationId = this.getAttribute('data-notification-id');
-                markNotificationAsRead(notificationId, this);
-            });
-        });
-    });
-
-    function markNotificationAsRead(notificationId, element) {
-        fetch(`/notifications/mark-as-read/${notificationId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            }
-        }).then(response => {
-            if (response.ok) {
-                const row = element.closest('.notification-row');
-                row.parentNode.removeChild(row);
-            } else {
-                alert('Failed to mark notification as read.');
-            }
-        });
-    }
-
-
-</script>
